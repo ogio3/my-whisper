@@ -1,0 +1,20 @@
+# Model outputs (1.5GB+ each)
+output/
+
+# HF Datasets (audio + features)
+data/hf_dataset*/
+
+# Gold transcripts (contains audio paths)
+data/*.jsonl
+
+# Evaluation results (regenerable)
+results/
+
+# Audio data
+data/audio/
+
+# Environment
+.env
+*.pyc
+__pycache__/
+.DS_Store

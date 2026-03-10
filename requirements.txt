@@ -1,0 +1,10 @@
+torch>=2.1.0
+transformers>=4.36.0
+datasets>=3.0.0,<4.0.0
+evaluate
+jiwer
+soundfile
+google-generativeai>=0.8.0
+peft>=0.7.0
+fugashi
+unidic-lite

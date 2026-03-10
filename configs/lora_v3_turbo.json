@@ -1,0 +1,61 @@
+{
+  "model_id": "openai/whisper-large-v3-turbo",
+  "language": "ja",
+  "task": "transcribe",
+  "strategy": "encoder-decoder-lora",
+  "lora": {
+    "r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": "all-linear",
+    "bias": "none",
+    "modules_to_save": ["proj_out"]
+  },
+  "freeze": {
+    "feature_extractor": true,
+    "encoder": false,
+    "decoder": false
+  },
+  "training": {
+    "per_device_train_batch_size": 8,
+    "gradient_accumulation_steps": 2,
+    "learning_rate": 5e-5,
+    "lr_scheduler_type": "cosine",
+    "warmup_steps": 200,
+    "num_train_epochs": 5,
+    "bf16": true,
+    "gradient_checkpointing": true,
+    "eval_strategy": "steps",
+    "eval_steps": 200,
+    "save_steps": 200,
+    "logging_steps": 25,
+    "predict_with_generate": true,
+    "generation_max_length": 225,
+    "load_best_model_at_end": true,
+    "metric_for_best_model": "cer",
+    "greater_is_better": false,
+    "save_total_limit": 3,
+    "report_to": "none",
+    "remove_unused_columns": false,
+    "dataloader_num_workers": 4
+  },
+  "experience_replay": {
+    "enabled": false,
+    "dataset": "mozilla-foundation/common_voice_16_1",
+    "language": "ja",
+    "split": "train",
+    "ratio": 0.1
+  },
+  "notes": {
+    "strategy": "Encoder+Decoder LoRA: unfreezes encoder for acoustic adaptation",
+    "evidence": "LoRA enables acoustic adaptation through encoder while keeping model small",
+    "lora_r": "r=16: good balance between capacity and overfitting risk",
+    "lr": "5e-5: LoRA tolerates higher LR than full FT (per LoRA paper)",
+    "bf16": "FP16 causes loss spikes with V3 family. BF16 recommended",
+    "target_modules": "all-linear: better than q/v only (HF discussions/189)",
+    "modules_to_save": "proj_out: output projection trained fully for vocabulary adaptation",
+    "scheduler": "cosine: more stable than linear for LoRA",
+    "eval": "CER-based best model selection (val loss unreliable — HF Discussion #107)",
+    "mel_bins": "128 (v3 specific, DO NOT use v2 processor)"
+  }
+}
