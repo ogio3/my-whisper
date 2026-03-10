@@ -63,8 +63,8 @@ Evaluated on 320 samples of personal voice recordings (AirPods Bluetooth SCO, 8â
 ### 1. Install
 
 ```bash
-git clone https://github.com/oginome/whisper-personal.git
-cd whisper-personal
+git clone https://github.com/ogio3/my-whisper.git
+cd my-whisper
 pip install -r requirements.txt
 ```
 
